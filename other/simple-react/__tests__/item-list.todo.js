@@ -8,24 +8,37 @@
 // to testing react components.
 
 // So you can use JSX (which transpiles down to React.createElement):
-// import React from 'react'
+import React from 'react'
 //
 // So you can render the component for testing:
-// import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom'
 //
 // So you can create a react element for the component you're testing:
-// import ItemList from '../item-list'
+import ItemList from '../item-list'
 
 // and here's an outline example of your first test:
 //   Create a "container" to render your component into (tip: use document.createElement('div'))
 //
 //   Render your component (tip: use ReactDOM.render(JSX, container))
 //
+
+test('testing item list component with no items', () => {
+  const container = document.createElement('div')
+  ReactDOM.render(<ItemList items={[]} />, container)
+  expect(container.textContent).toMatch('no items')
+})
 //   Make your assertion(s) on the textContent of the container
 //   (tip: expect's toMatch function might be what you want
 //   for example: `expect('some text content').toMatch('text')`)
 //
 // For your second test, it will be very similar to the first.
+
+test('testing item list component with some items', () => {
+  const container = document.createElement('div')
+  ReactDOM.render(<ItemList items={['apple', 'orange']} />, container)
+  expect(container.textContent).toMatch('apple')
+  expect(container.textContent).toMatch('orange')
+})
 
 //////// Elaboration & Feedback /////////
 // When you've finished with the exercises:
