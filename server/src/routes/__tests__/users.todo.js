@@ -7,8 +7,31 @@
 /*
 http://ws.kcd.im/?ws=Testing&e=users%20integration&em=
 */
-test.skip('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
-  expect(submitted).toBe(true)
+import axios from 'axios'
+import {generate} from 'til-server-test-utils'
+import startServer from '../../start'
+
+let server
+
+jest.unmock('axios')
+
+const port = 8788
+const api = axios.create({
+  baseURL: `http://localhost:${port}/api`,
 })
-////////////////////////////////
+
+beforeAll(async () => {
+  server = await startServer({port})
+})
+
+afterAll(() => server.close())
+
+test('user CRUD', async () => {
+  const loginForm = generate.loginForm()
+  const createdUser = await api
+    .post('auth/register', loginForm)
+    .then(r => r.data.user)
+  console.log(createdUser.data)
+  const result = await api.get('users')
+  console.log(result.data)
+})
